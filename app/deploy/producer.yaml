@@ -1,0 +1,40 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: producer
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: rmq-producer
+            image: rmq-app:v1
+            imagePullPolicy: IfNotPresent
+            args:
+            - sh
+            - -c
+            - /app/sender
+            env:
+              - name: RABBITMQ_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: rmq-secrets
+                    key: rmq_user
+              - name: RABBITMQ_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: rmq-secrets
+                    key: rmq_pass
+              - name: RABBITMQ_HOST
+                valueFrom:
+                  configMapKeyRef:
+                    name: rmq-configs
+                    key: rmq_host
+              - name: RABBITMQ_PORT
+                valueFrom:
+                  configMapKeyRef:
+                    name: rmq-configs
+                    key: rmq_port
+          restartPolicy: OnFailure
