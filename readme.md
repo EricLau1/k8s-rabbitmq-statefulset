@@ -1,4 +1,4 @@
-# K8s RabbitMQ Statefulset & Golang
+# Golang e RabbitMQ no Minikube
 
 - Fazer o deploy do RabbitMQ
 
@@ -16,10 +16,9 @@ kubectl apply -f service.yaml
 minikube service rabbitmq --url
 
 # exemplo de saida
-http://172.17.0.2:31112
+http://172.17.0.2:31112 # Colar a primeira URL gerada no navegador
 http://172.17.0.2:31111
 
-# Colar a primeira gerada URL no navegador
 ```
 
 - Fazer o build da imagem
